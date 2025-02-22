@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sister Question</title>
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            text-align: center;
+            background-color: #ffebf0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #question {
+            font-size: 30px;
+            font-weight: bold;
+            color: #d81b60;
+        }
+
+        .sister-btn {
+            font-size: 20px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        #no-btn {
+            background-color: #ff1744;
+            color: white;
+        }
+
+        #no-btn:hover {
+            background-color: #d50000;
+        }
+
+        #yes-btn {
+            background-color: #ff69b4;
+            color: white;
+            display: none;
+            position: absolute;
+        }
+
+        #yes-btn:hover {
+            background-color: #d81b60;
+        }
+
+        #celebration {
+            font-size: 40px;
+            color: #ff4081;
+            display: none;
+            animation: pop 0.5s ease-in-out;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: gold;
+            opacity: 0.8;
+            animation: fall 2s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+    </style>
+</head>
+<body>
+
+    <p id="question">Will you be my sister? 💕</p>
+    <button id="no-btn" class="sister-btn" onclick="increaseNoSize()">No</button>
+    <button id="yes-btn" class="sister-btn" onmouseover="moveYesButton()" onclick="celebrate()">Yes 💖</button>
+    <p id="celebration">🎉🎉🎉 Happy Birthday! 🎉🎉🎉</p>
+
+    <script>
+        let noClickCount = 0;
+        let yesMoveCount = 0;
+
+        function increaseNoSize() {
+            noClickCount++;
+            let noBtn = document.getElementById("no-btn");
+
+            noBtn.style.fontSize = (20 + noClickCount * 20) + "px";
+            noBtn.style.padding = (10 + noClickCount * 5) + "px";
+
+            if (noClickCount >= 3) {
+                noBtn.style.width = "100vw";
+                noBtn.style.height = "100vh";
+                noBtn.style.fontSize = "50px";
+                document.getElementById("yes-btn").style.display = "inline-block";
+            }
+        }
+
+        function moveYesButton() {
+            if (yesMoveCount < 4) {
+                let yesBtn = document.getElementById("yes-btn");
+                let randomX = Math.random() * (window.innerWidth - yesBtn.offsetWidth);
+                let randomY = Math.random() * (window.innerHeight - yesBtn.offsetHeight);
+                yesBtn.style.left = randomX + "px";
+                yesBtn.style.top = randomY + "px";
+                yesMoveCount++;
+            }
+        }
+
+        function celebrate() {
+            document.getElementById("question").style.display = "none";
+            document.getElementById("no-btn").style.display = "none";
+            document.getElementById("yes-btn").style.display = "none";
+            document.getElementById("celebration").style.display = "block";
+
+            for (let i = 0; i < 100; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                document.body.appendChild(confetti);
+                confetti.style.left = Math.random() * window.innerWidth + "px";
+                confetti.style.animationDuration = (Math.random() * 2 + 1) + "s";
+                confetti.style.backgroundColor = ["red", "yellow", "blue", "pink", "gold", "purple"][Math.floor(Math.random() * 6)];
+                setTimeout(() => confetti.remove(), 2000);
+            }
+        }
+    </script>
+
+</body>
+</html>
